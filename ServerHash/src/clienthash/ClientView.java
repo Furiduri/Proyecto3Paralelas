@@ -24,6 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 import interfaces.IClientHash;
+import interfaces.ResponceHashServer;
+import java.awt.Color;
 import utils.Hashing;
 
 /**
@@ -32,13 +34,9 @@ import utils.Hashing;
  */
 public class ClientView extends javax.swing.JFrame {
 
-    private static String IP;
-    private static int PORT;
-    public static ArrayList<Client> listUsers;
-    private ServerClient clServer;
-    private IServerHash SERVER;
-    private ArrayList<Client> UsersList;
-    private Integer ClientPORT;
+    private ServerClient _Server;
+    private int _ClientPORT;
+    private String _ClienName;
 
     /**
      * Creates new form ChatView
@@ -91,6 +89,23 @@ public class ClientView extends javax.swing.JFrame {
         txtHash = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtRegex = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtLogServer = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        txtResult = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        btnCancelHash = new javax.swing.JButton();
+        btnStartHash = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblTimeInit = new javax.swing.JLabel();
+        lblTimeEnd = new javax.swing.JLabel();
+        lblTimeMs = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -261,7 +276,6 @@ public class ClientView extends javax.swing.JFrame {
         txtLog.setBackground(new java.awt.Color(204, 204, 204));
         txtLog.setColumns(20);
         txtLog.setRows(5);
-        txtLog.setEnabled(false);
         jScrollPane1.setViewportView(txtLog);
 
         javax.swing.GroupLayout pnlLogLayout = new javax.swing.GroupLayout(pnlLog);
@@ -273,8 +287,8 @@ public class ClientView extends javax.swing.JFrame {
         pnlLogLayout.setVerticalGroup(
             pnlLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLogLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -299,7 +313,7 @@ public class ClientView extends javax.swing.JFrame {
         );
         pnlListUsersLayout.setVerticalGroup(
             pnlListUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
         );
 
         btnReload.setBackground(new java.awt.Color(204, 255, 255));
@@ -350,7 +364,8 @@ public class ClientView extends javax.swing.JFrame {
         jLabel5.setText("HASH Result");
 
         txtHash.setEditable(false);
-        txtHash.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtHash.setBackground(new java.awt.Color(204, 204, 204));
+        txtHash.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Exprecion a buscar (Regex)");
@@ -371,7 +386,7 @@ public class ClientView extends javax.swing.JFrame {
                 .addGroup(pnlHeader1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlHeader1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 390, Short.MAX_VALUE)
                         .addComponent(jLabel7))
                     .addGroup(pnlHeader1Layout.createSequentialGroup()
                         .addComponent(txtHash)
@@ -395,17 +410,181 @@ public class ClientView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Respuestas de los servidores");
+
+        txtLogServer.setEditable(false);
+        txtLogServer.setColumns(20);
+        txtLogServer.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        txtLogServer.setRows(5);
+        jScrollPane2.setViewportView(txtLogServer);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("Resultado");
+
+        txtResult.setEditable(false);
+        txtResult.setBackground(new java.awt.Color(255, 255, 255));
+        txtResult.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtResult.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtResult.setText("asdsad");
+        txtResult.setToolTipText("");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setText("Inicio");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Termino");
+
+        btnCancelHash.setBackground(new java.awt.Color(255, 51, 51));
+        btnCancelHash.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCancelHash.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelHash.setText("Cancelar");
+        btnCancelHash.setEnabled(false);
+        btnCancelHash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelHashMouseClicked(evt);
+            }
+        });
+
+        btnStartHash.setBackground(new java.awt.Color(0, 153, 204));
+        btnStartHash.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnStartHash.setForeground(new java.awt.Color(255, 255, 255));
+        btnStartHash.setText("Inicar");
+        btnStartHash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStartHashMouseClicked(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel12.setText("Tiempo trascurrido");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Status");
+
+        lblTimeInit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblTimeInit.setText("N/A");
+
+        lblTimeEnd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblTimeEnd.setText("N/A");
+
+        lblTimeMs.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblTimeMs.setText("00 ms");
+
+        lblStatus.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(153, 153, 153));
+        lblStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblStatus.setText("Sin Iniciar");
+        lblStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtResult)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnStartHash)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelHash))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(lblTimeInit, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(lblTimeEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(52, 52, 52)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTimeMs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelHash)
+                    .addComponent(btnStartHash))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTimeInit)
+                    .addComponent(lblTimeEnd)
+                    .addComponent(lblTimeMs)
+                    .addComponent(lblStatus))
+                .addGap(27, 27, 27))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlHeader1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(pnlHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
@@ -458,8 +637,9 @@ public class ClientView extends javax.swing.JFrame {
         }
 
         try {
-            if (StartChat()) {
+            if (StartApp()) {
                 SetEnableHeader(false);
+                SetStatu00();
             } else {
                 SetEnableHeader(true);
             }
@@ -471,7 +651,7 @@ public class ClientView extends javax.swing.JFrame {
 
     private void btnReloadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadMouseClicked
         try {
-            clServer.TestConnectServers();
+            _Server.TestConnectServers();
             LoadListServers();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error al refrescar la lista", JOptionPane.ERROR_MESSAGE);
@@ -480,7 +660,7 @@ public class ClientView extends javax.swing.JFrame {
 
     private void btnAddServerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddServerMouseClicked
         // TODO add your handling code here:                 
-        btnAddServer.setEnabled(false);
+        btnAddServer.setVisible(false);
         try {
             if (txtIP_Port1.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Favor Agregar la ip y el puerto del servidor IP:Puerto");
@@ -494,7 +674,7 @@ public class ClientView extends javax.swing.JFrame {
                     String serveIP = args[0];
                     int servePORT = Integer.valueOf(args[1]);
                     String serveName = txtServerName.getText();
-                    if (clServer.AddServer(serveName, serveIP, servePORT)) {
+                    if (_Server.AddServer(serveName, serveIP, servePORT)) {
                         LoadListServers();
                     } else {
                         JOptionPane.showMessageDialog(null, "No fue posible agregar el servidor");
@@ -504,7 +684,7 @@ public class ClientView extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error al Agregar el servidor", JOptionPane.ERROR_MESSAGE);
         }finally{
-            btnAddServer.setEnabled(true);
+            btnAddServer.setVisible(true);
         }
     }//GEN-LAST:event_btnAddServerMouseClicked
 
@@ -515,24 +695,57 @@ public class ClientView extends javax.swing.JFrame {
             txtHash.setText(Hashing.sha256(txtMainText.getText()));
     }//GEN-LAST:event_txtMainTextKeyTyped
 
+    private void btnStartHashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartHashMouseClicked
+        // TODO add your handling code here:
+        SetStatu00();
+        if(ValidForm()){
+            SetStatu01();
+            StartSearch();
+        }else{
+            SetStatu00();
+        }
+    }//GEN-LAST:event_btnStartHashMouseClicked
+
+    private void btnCancelHashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelHashMouseClicked
+        // TODO add your handling code here:
+        if(_Server.getServersList().size() > 0)
+            SotpServers();
+        SetStatu02();       
+    }//GEN-LAST:event_btnCancelHashMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> LiUsers;
     private javax.swing.JButton btnAddServer;
+    private javax.swing.JButton btnCancelHash;
     private javax.swing.JButton btnReload;
     private javax.swing.JButton btnStart;
+    private javax.swing.JButton btnStartHash;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel lblClientPort;
     private javax.swing.JLabel lblServer;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTimeEnd;
+    private javax.swing.JLabel lblTimeInit;
+    private javax.swing.JLabel lblTimeMs;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHeader1;
@@ -545,19 +758,24 @@ public class ClientView extends javax.swing.JFrame {
     private javax.swing.JTextField txtHash;
     private javax.swing.JTextField txtIP_Port1;
     private javax.swing.JTextArea txtLog;
+    private javax.swing.JTextArea txtLogServer;
     private javax.swing.JTextField txtMainText;
     private javax.swing.JTextField txtPortClient;
     private javax.swing.JTextField txtRegex;
+    private javax.swing.JTextField txtResult;
     private javax.swing.JTextField txtServerName;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
 
-    private boolean StartChat() throws RemoteException, NotBoundException, UnknownHostException, AlreadyBoundException {
+    private boolean StartApp() throws RemoteException, NotBoundException, UnknownHostException, AlreadyBoundException {
 
-        ClientPORT = Integer.valueOf(txtPortClient.getText());
-        clServer = new ServerClient(
-                ClientPORT,
-                txtUserName.getText()
+        _ClientPORT = Integer.valueOf(txtPortClient.getText());
+        _ClienName = txtUserName.getText();
+        _Server = new ServerClient(
+                _ClientPORT,
+                _ClienName,
+                txtLogServer,
+                this
         );
         return true;
     }
@@ -567,8 +785,8 @@ public class ClientView extends javax.swing.JFrame {
         txtPortClient.setEnabled(b);
         txtIP_Port1.setEnabled(!b);
         txtServerName.setEnabled(!b);
-        btnAddServer.setEnabled(!b);
-        btnStart.setEnabled(b);
+        btnAddServer.setVisible(!b);
+        btnStart.setVisible(b);
         pnlMain.setVisible(!b);
     }
 
@@ -576,9 +794,98 @@ public class ClientView extends javax.swing.JFrame {
         txtIP_Port1.setText("");
         txtServerName.setText("");
         ArrayList<String> model = new ArrayList<>();
-        for (ServerInfo item : clServer.getServersList()) {
+        for (ServerInfo item : _Server.getServersList()) {
             model.add(item.getName());
         }
         LiUsers.setListData(model.toArray(new String[0]));
+    }
+    
+    private boolean ValidForm() {
+        if(_Server.getServersList().size() == 0){
+            JOptionPane.showMessageDialog(null, "Favor de agregar algun servidor!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else            
+        if (txtMainText.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Favor de ingresar un texto incicial!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (txtRegex.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Favor de ingresar un texto o exprecion a buscar!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void SetStatu00() {
+        txtResult.setText("");
+        lblTimeInit.setText("");
+        lblTimeEnd.setText("");
+        lblTimeMs.setText("00 ms");
+        txtLogServer.setText("");
+        btnStartHash.setVisible(true);        
+        btnCancelHash.setVisible(false);
+        lblStatus.setText("Sin Iniciar");
+        lblStatus.setForeground(Color.GRAY);
+        _Server.Responces = new ArrayList<>();
+    }
+    
+    private void SetStatu01() {
+        txtResult.setText("");
+        lblTimeInit.setText("");
+        lblTimeEnd.setText("");
+        lblTimeMs.setText("00 ms");
+        txtLogServer.setText("");
+        btnStartHash.setVisible(false);        
+        btnCancelHash.setVisible(true);
+        lblStatus.setText("Esperando respuesta...");
+        lblStatus.setForeground(Color.BLUE);
+    }
+
+    private void SetStatu02() {        
+        btnStartHash.setVisible(true);        
+        btnCancelHash.setVisible(false);
+        lblStatus.setText("Cancelado");
+        lblStatus.setForeground(Color.RED);
+    }
+
+    private void StartSearch() {
+        char[] startKey = {0};
+        char numChar = 0;
+        for (ServerInfo item : _Server.getServersList()) {
+            try {
+                item.StartSearh(_ClienName, _ClientPORT,
+                    txtMainText.getText(),
+                    txtRegex.getText(),
+                    startKey,
+                    "Hilo Secuencial",
+                    2);
+                numChar++;
+                char[] newStart = {numChar,0,0};
+                startKey = newStart;
+            } catch (Exception ex) {
+                txtLog.append(item.getName()+ ": "+ex.getMessage());
+            }
+        }
+    }
+
+    public void SotpServers() {
+        for (ServerInfo item : _Server.getServersList()) {
+            try {
+                item.Stop();
+            } catch (Exception ex) {                
+                txtLog.append(item.getName()+ ": "+ex.getMessage());
+            } 
+        }
+    }
+    
+    public void SetCorrectResult(ResponceHashServer res){
+        txtResult.setText(res.HashFinding);
+        lblTimeInit.setText(res.StartDate.toLocalTime().toString());
+        lblTimeEnd.setText(res.EndDate.toLocalTime().toString());
+        lblTimeMs.setText(res.TimerEnd);
+        lblStatus.setText("Success");
+        lblStatus.setBackground(Color.GREEN);
+        btnStartHash.setVisible(true);        
+        btnCancelHash.setVisible(false);        
     }
 }

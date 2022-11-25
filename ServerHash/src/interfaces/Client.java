@@ -35,4 +35,13 @@ public class Client {
        IClientHash clientS = StartClient();
         return clientS.Test(Name, Port);
     }
+    
+    public void SendMSG(String msg, String serverName) throws RemoteException, NotBoundException{
+        IClientHash clientS = StartClient();
+        clientS.ReciveServerLog(msg, serverName);
+    }
+    
+    public void SendResult(String result) throws RemoteException, NotBoundException{
+        StartClient().ReciveResultHilo(result);
+    }
 }

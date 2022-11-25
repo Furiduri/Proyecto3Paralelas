@@ -19,7 +19,7 @@ public class Json {
    public static String toJSON(ArrayList list) {
         Gson gson = new Gson();
         return gson.toJson(list);
-    }
+    }    
    
    public static ArrayList<Client> toArray(String json){
        Gson gson = new Gson(); 

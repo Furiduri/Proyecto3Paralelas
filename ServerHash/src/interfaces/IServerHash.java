@@ -15,4 +15,6 @@ import java.rmi.RemoteException;
 public interface IServerHash extends Remote{
     boolean Connected(String UserName, int Port) throws RemoteException;    
     boolean Test() throws RemoteException;
+    void StartSearh(String UserName, int Port, String BaseText, String Criterial, char[] starKey,  int intentosMax, String nameTread, int nThreads) throws RemoteException;
+    void EndHilo() throws RemoteException;
 }

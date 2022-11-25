@@ -14,4 +14,6 @@ import java.rmi.RemoteException;
  */
 public interface IClientHash extends Remote{
     boolean Test(String Name, int Port)throws RemoteException;
+    void ReciveServerLog(String msg, String serverName) throws RemoteException;
+    void ReciveResultHilo(String result) throws RemoteException;
 }

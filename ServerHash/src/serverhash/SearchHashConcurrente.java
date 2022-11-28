@@ -66,7 +66,13 @@ public class SearchHashConcurrente extends Thread {
         }
         while (flagTread && HashFinding == null && !executor.isTerminated());
         executor.shutdown();
-        System.out.println("Main! Hash:" + HashFinding + "  KEY:" + Arrays.toString(key) + " Count:" + String.valueOf(Count));
+        String logMSG = "Main! Hash:" + HashFinding + " StartKey:" + Arrays.toString(StartKey) +"  KEY:" + Arrays.toString(key) + " Count:" + String.valueOf(Count);
+        System.out.println(logMSG);
+        try {
+            _Server._Client.SendMSG(logMSG, _Server._Name);
+        } catch (Exception ex) {
+            Logger.getLogger(SearchHashConcurrente.class.getName()).log(Level.SEVERE, null, ex);
+        } 
         EndDate = LocalDateTime.now();
         long res = Utils.GetMiliTime(StartDate, EndDate); 
         System.out.println(this.getName()+ " Time ms: "+res);
@@ -98,6 +104,7 @@ public class SearchHashConcurrente extends Thread {
 
         SearchHashConcurrente Context;
         String HashFinding;
+        char[] startkey;
         char[] key = {0};
         int Count = 0;
         char[] MaxKey;   
@@ -107,6 +114,7 @@ public class SearchHashConcurrente extends Thread {
             this.Context = context;
             this.key = StartKey;
             this.MaxKey = MaxKey;
+            this.startkey = StartKey;
         }
 
         @Override
@@ -126,7 +134,13 @@ public class SearchHashConcurrente extends Thread {
                     }
                     key = Utils.GetNextAscii(key, 0);
                 }
-                System.out.println(this.getName()+ " Hash:" + HashFinding + "  KEY:" + Arrays.toString(key) + " Count:" + String.valueOf(Count));                                
+                String logMSG = this.getName()+ " Hash:" + HashFinding + " StartKey:" + Arrays.toString(startkey) +"  KEY:"  + Arrays.toString(key) + " Count:" + String.valueOf(Count);
+                System.out.println(logMSG);   
+                try {
+                    _Server._Client.SendMSG(logMSG, _Server._Name);
+                } catch (Exception ex) {
+                    Logger.getLogger(SearchHashConcurrente.class.getName()).log(Level.SEVERE, null, ex);
+                } 
             } catch (Exception e) {
                 System.err.println(e);
                 System.out.println("ERROR! Hash:" + HashFinding + "  KEY:" + Arrays.toString(key) + " Count:" + String.valueOf(Count));

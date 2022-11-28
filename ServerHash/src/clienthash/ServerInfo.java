@@ -62,8 +62,8 @@ class ServerInfo {
         return StartServer().Test();
     }
     
-    public void StartSearh(String UserName, int Port, String BaseText, String Criterial, char[] starKey,String nameTread, int nThreads) throws RemoteException, NotBoundException{
-        StartServer().StartSearh(UserName, Port, BaseText, Criterial, starKey, 0, nameTread, nThreads);
+    public void StartSearh(String UserName, int Port, String BaseText, String Criterial, char[] starKey,String nameTread, int nThreads, int maxIntent) throws RemoteException, NotBoundException{
+        StartServer().StartSearh(UserName, Port, BaseText, Criterial, starKey, maxIntent, nameTread, nThreads);
     }
     
     public void Stop() throws RemoteException, NotBoundException{

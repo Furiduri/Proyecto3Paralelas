@@ -24,6 +24,7 @@ import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,11 +115,14 @@ public class ServerClient implements interfaces.IClientHash{
         }
         Responces.add(res);        
         _LogServer.append("*********\nServer: "+res.ServerName+
-                "\n StartKey: "+res.StartKey+
+                "\n StartKey: "+Arrays.toString(res.StartKey)+
                 "\n Hash: "+res.HashFinding+
-                "\n Key:"+res.key+
+                "\n Key:"+Arrays.toString(res.key)+
                 "\n "+res.TimerEnd + 
                 "\n Cont: "+res.Count + " \n");
+        if(Responces.size() == ServersList.size()){
+            View.SotpServers();
+        }
     }
 
 }

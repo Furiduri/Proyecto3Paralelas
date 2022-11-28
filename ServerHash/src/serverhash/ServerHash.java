@@ -35,9 +35,9 @@ import utils.Json;
 public class ServerHash implements IServerHash{
 
     private int _Port;
-    private String _Name;
+    public String _Name;
     private String _Ip;
-    private Client _Client = null;
+    public Client _Client = null;
     private SearchHashConcurrente _Hilo = null;
     public ServerHash(int Port, String Name, String ip){
         _Port = Port;     
@@ -96,6 +96,20 @@ public class ServerHash implements IServerHash{
             if(_Hilo == null){
                 _Hilo = new SearchHashConcurrente(BaseText, Criterial, starKey, intentosMax, nameTread, nThreads, this);
                 _Hilo.start();
+            }else{                        
+                if(!_Hilo.flagTread){
+                    try {
+                        _Hilo.finalize();
+                    } catch (Throwable ex) {
+                        Logger.getLogger(ServerHash.class.getName()).log(Level.SEVERE, null, ex);
+                    } finally{
+                        _Hilo = null;
+                         _Hilo = new SearchHashConcurrente(BaseText, Criterial, starKey, intentosMax, nameTread, nThreads, this);
+                        _Hilo.start();
+                    }                    
+                }else{
+                    _Client.SendMSG("No fue posible inicar el hilo, vulva a intentarlo", _Name);     
+                }
             }
             
         } catch (Exception ex) {
@@ -107,8 +121,6 @@ public class ServerHash implements IServerHash{
         Gson json = new Gson();        
         res.ServerName = _Name;
         _Client.SendResult(json.toJson(res));
-        _Hilo = null;
-        _Client = null;
         System.out.println("Se enviaron los resultado y se reinicio el usuario y hilo");
     }    
 

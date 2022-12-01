@@ -26,6 +26,7 @@ import javax.swing.event.ListDataListener;
 import interfaces.IClientHash;
 import interfaces.ResponceHashServer;
 import java.awt.Color;
+import java.util.Arrays;
 import utils.Hashing;
 
 /**
@@ -37,6 +38,8 @@ public class ClientView extends javax.swing.JFrame {
     private ServerClient _Server;
     private int _ClientPORT;
     private String _ClienName;
+    private SearchHash _HiloSecuencial;
+    private SearchHashConcurrente _HiloConcurrente;
 
     /**
      * Creates new form ChatView
@@ -112,6 +115,13 @@ public class ClientView extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txtMaxIntentosConcu = new javax.swing.JSpinner();
         txtMaxHilos = new javax.swing.JSpinner();
+        btnStartSec = new javax.swing.JButton();
+        btnStopSecuen = new javax.swing.JButton();
+        btnSetResult = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        lblKeyRes = new javax.swing.JLabel();
+        btnStartConcurrente = new javax.swing.JButton();
+        btnStopConcurrente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -260,7 +270,7 @@ public class ClientView extends javax.swing.JFrame {
                         .addComponent(lblClientPort)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtPortClient, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 366, Short.MAX_VALUE)))
                 .addComponent(pnlServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlHeaderLayout.setVerticalGroup(
@@ -482,7 +492,7 @@ public class ClientView extends javax.swing.JFrame {
         btnStartHash.setBackground(new java.awt.Color(0, 153, 204));
         btnStartHash.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnStartHash.setForeground(new java.awt.Color(255, 255, 255));
-        btnStartHash.setText("Inicar");
+        btnStartHash.setText("Inicar Paralela");
         btnStartHash.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnStartHashMouseClicked(evt);
@@ -490,7 +500,7 @@ public class ClientView extends javax.swing.JFrame {
         });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel12.setText("Tiempo trascurrido");
+        jLabel12.setText("Key usada");
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -540,6 +550,51 @@ public class ClientView extends javax.swing.JFrame {
             }
         });
 
+        btnStartSec.setBackground(new java.awt.Color(204, 204, 255));
+        btnStartSec.setText("Iniciar Secuencial");
+        btnStartSec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStartSecMouseClicked(evt);
+            }
+        });
+
+        btnStopSecuen.setBackground(new java.awt.Color(255, 153, 153));
+        btnStopSecuen.setText("Cancelar");
+        btnStopSecuen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStopSecuenMouseClicked(evt);
+            }
+        });
+
+        btnSetResult.setText("SetResult");
+        btnSetResult.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSetResultMouseClicked(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel17.setText("Tiempo trascurrido");
+
+        lblKeyRes.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblKeyRes.setText("[]");
+
+        btnStartConcurrente.setBackground(new java.awt.Color(204, 204, 0));
+        btnStartConcurrente.setText("Iniciar Concurrente");
+        btnStartConcurrente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStartConcurrenteMouseClicked(evt);
+            }
+        });
+
+        btnStopConcurrente.setBackground(new java.awt.Color(255, 102, 102));
+        btnStopConcurrente.setText("Cancelar");
+        btnStopConcurrente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStopConcurrenteMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -547,44 +602,66 @@ public class ClientView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtResult)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(lblTimeInit, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(lblTimeEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(130, 130, 130)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(28, 28, 28))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(lblTimeEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52)
+                                .addComponent(lblTimeMs, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTimeMs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblKeyRes, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(246, 246, 246)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblServerResult, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel16)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(69, 69, 69)
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblServerResult, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel15))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(416, 416, 416)
-                                .addComponent(jLabel16)))
+                                .addGap(91, 91, 91)
+                                .addComponent(jLabel15)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMaxIntentosConcu, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMaxHilos, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(53, 53, 53)
-                        .addComponent(btnStartHash)
-                        .addGap(58, 58, 58)
-                        .addComponent(btnCancelHash)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtMaxIntentosConcu, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnStartSec)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnStartConcurrente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtMaxHilos, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
+                                .addComponent(btnStopSecuen)
+                                .addGap(61, 61, 61)
+                                .addComponent(btnStopConcurrente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSetResult)
+                                .addGap(49, 49, 49)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnStartHash)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnCancelHash)
+                                .addGap(20, 20, 20))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtResult)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -592,40 +669,49 @@ public class ClientView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnStartHash)
+                            .addComponent(btnStartSec)
+                            .addComponent(btnStartConcurrente))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnCancelHash)
+                                    .addComponent(btnSetResult))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel14)
+                                    .addComponent(lblServerResult)))
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel14))
-                            .addComponent(lblServerResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnStopSecuen)
+                                .addComponent(btnStopConcurrente))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
                             .addComponent(txtMaxIntentosConcu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(txtMaxHilos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnStartHash)
-                            .addComponent(btnCancelHash))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMaxHilos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTimeInit)
                     .addComponent(lblTimeEnd)
                     .addComponent(lblTimeMs)
-                    .addComponent(lblStatus))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(lblStatus)
+                    .addComponent(lblKeyRes))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -784,14 +870,74 @@ public class ClientView extends javax.swing.JFrame {
         txtMaxHilos.setValue(1);
     }//GEN-LAST:event_txtMaxHilosStateChanged
 
+    private void btnStartSecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartSecMouseClicked
+         SetStatu00();
+        if(ValidForm_local()){
+            SetStatu01_Secuencial();
+            _HiloSecuencial = new SearchHash(txtMainText.getText(),txtRegex.getText(), (int)txtMaxIntentosConcu.getValue(), "Secuencial", btnSetResult, txtLogServer );            
+            _HiloSecuencial.start();
+        }else{
+            SetStatu00();
+        }
+    }//GEN-LAST:event_btnStartSecMouseClicked
+
+    private void btnStopSecuenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStopSecuenMouseClicked
+        if(_HiloSecuencial != null){
+            _HiloSecuencial.IsCancel = true;
+            _HiloSecuencial.flagTread = false;            
+        }else{
+            SetStatu00();
+        }
+    }//GEN-LAST:event_btnStopSecuenMouseClicked
+
+    private void btnSetResultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSetResultMouseClicked
+        // TODO add your handling code here:
+        if(_HiloSecuencial != null){
+            SetCorrectResult(_HiloSecuencial.resItem);            
+            if(_HiloSecuencial.IsCancel) 
+                SetStatu02();            
+        }else if(_HiloConcurrente != null){
+            SetCorrectResult(_HiloConcurrente.resItem);
+            if(_HiloConcurrente.IsCancel) 
+                SetStatu02(); 
+        }
+    }//GEN-LAST:event_btnSetResultMouseClicked
+
+    private void btnStopConcurrenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStopConcurrenteMouseClicked
+        // TODO add your handling code here:
+        if(_HiloConcurrente != null){
+            _HiloConcurrente.IsCancel = true;
+            _HiloConcurrente.flagTread = false;            
+        }else{
+            SetStatu00();
+        }
+    }//GEN-LAST:event_btnStopConcurrenteMouseClicked
+
+    private void btnStartConcurrenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartConcurrenteMouseClicked
+        // TODO add your handling code here:
+         SetStatu00();
+        if(ValidForm_local()){
+            SetStatu01_Concurrente();
+            _HiloConcurrente = new SearchHashConcurrente(txtMainText.getText(),txtRegex.getText(), (int)txtMaxIntentosConcu.getValue(), "Secuencial",(int)txtMaxHilos.getValue(), txtLogServer, btnSetResult );            
+            _HiloConcurrente.start();
+        }else{
+            SetStatu00();
+        }
+    }//GEN-LAST:event_btnStartConcurrenteMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> LiUsers;
     private javax.swing.JButton btnAddServer;
     private javax.swing.JButton btnCancelHash;
     private javax.swing.JButton btnReload;
+    private javax.swing.JButton btnSetResult;
     private javax.swing.JButton btnStart;
+    private javax.swing.JButton btnStartConcurrente;
     private javax.swing.JButton btnStartHash;
+    private javax.swing.JButton btnStartSec;
+    private javax.swing.JButton btnStopConcurrente;
+    private javax.swing.JButton btnStopSecuen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -800,6 +946,7 @@ public class ClientView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -815,6 +962,7 @@ public class ClientView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel lblClientPort;
+    private javax.swing.JLabel lblKeyRes;
     private javax.swing.JLabel lblServer;
     private javax.swing.JLabel lblServerResult;
     private javax.swing.JLabel lblStatus;
@@ -892,7 +1040,19 @@ public class ClientView extends javax.swing.JFrame {
 
         return true;
     }
+    
+     private boolean ValidForm_local() {
+                   
+        if (txtMainText.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Favor de ingresar un texto incicial!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (txtRegex.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Favor de ingresar un texto o exprecion a buscar!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
 
+        return true;
+    }
     private void SetStatu00() {
         txtResult.setText("");
         lblTimeInit.setText("");
@@ -904,6 +1064,14 @@ public class ClientView extends javax.swing.JFrame {
         lblStatus.setText("Sin Iniciar");
         lblStatus.setForeground(Color.GRAY);
         _Server.Responces = new ArrayList<>();
+        
+        btnSetResult.setVisible(false);
+        //Secuencial
+        btnStartSec.setVisible(true);
+        btnStopSecuen.setVisible(false);
+        //Concurrente
+        btnStartConcurrente.setVisible(true);
+        btnStopConcurrente.setVisible(false);
     }
     
     private void SetStatu01() {
@@ -915,7 +1083,23 @@ public class ClientView extends javax.swing.JFrame {
         btnStartHash.setVisible(false);        
         btnCancelHash.setVisible(true);
         lblStatus.setText("Esperando respuesta...");
-        lblStatus.setForeground(Color.BLUE);
+        lblStatus.setForeground(Color.BLUE);        
+    }
+    
+    private void SetStatu01_Secuencial() {
+        txtResult.setText("");
+        lblTimeInit.setText("");
+        lblTimeEnd.setText("");
+        lblTimeMs.setText("00 ms");
+        txtLogServer.setText("");
+        btnStartHash.setVisible(false);        
+        btnCancelHash.setVisible(false);
+        btnStopSecuen.setVisible(true);
+        btnStartSec.setVisible(false);
+        btnStartConcurrente.setVisible(false);
+        lblStatus.setText("Esperando respuesta...");
+        lblStatus.setForeground(Color.BLUE);  
+        btnSetResult.setVisible(true);
     }
 
     private void SetStatu02() {        
@@ -923,6 +1107,13 @@ public class ClientView extends javax.swing.JFrame {
         btnCancelHash.setVisible(false);
         lblStatus.setText("Cancelado");
         lblStatus.setForeground(Color.RED);
+        btnSetResult.setVisible(false);
+        //Secuencial
+        btnStartSec.setVisible(true);
+        btnStopSecuen.setVisible(false);
+        //Concurrente
+        btnStartConcurrente.setVisible(true);
+        btnStopConcurrente.setVisible(false);
     }
 
     private void StartSearch() {
@@ -962,9 +1153,35 @@ public class ClientView extends javax.swing.JFrame {
         lblTimeEnd.setText(res.EndDate.toLocalTime().toString());
         lblTimeMs.setText(res.TimerEnd);
         lblServerResult.setText(res.ServerName);
+        lblKeyRes.setText(Arrays.toString(res.key));
         lblStatus.setText("Success");
         lblStatus.setBackground(Color.GREEN);
         btnStartHash.setVisible(true);        
-        btnCancelHash.setVisible(false);        
+        btnCancelHash.setVisible(false);  
+        btnSetResult.setVisible(false);
+        //secuencial
+        btnStartSec.setVisible(true);
+        btnStopSecuen.setVisible(false);
+        //concuerrente
+        btnStartConcurrente.setVisible(true);
+        btnStopConcurrente.setVisible(false);
+        _HiloSecuencial = null;
+        _HiloConcurrente = null;
+    }
+
+    private void SetStatu01_Concurrente() {
+        txtResult.setText("");
+        lblTimeInit.setText("");
+        lblTimeEnd.setText("");
+        lblTimeMs.setText("00 ms");
+        txtLogServer.setText("");
+        btnStartHash.setVisible(false);        
+        btnCancelHash.setVisible(false);
+        btnStartSec.setVisible(false);
+        btnStopConcurrente.setVisible(true);
+        btnStartConcurrente.setVisible(false);
+        lblStatus.setText("Esperando respuesta...");
+        lblStatus.setForeground(Color.BLUE);  
+        btnSetResult.setVisible(true);
     }
 }

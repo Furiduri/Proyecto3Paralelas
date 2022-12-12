@@ -7,10 +7,7 @@ package clienthash;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import interfaces.Client;
 import interfaces.ResponceHashServer;
-import java.awt.Component;
-import java.awt.event.MouseEvent;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -28,8 +25,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 /**

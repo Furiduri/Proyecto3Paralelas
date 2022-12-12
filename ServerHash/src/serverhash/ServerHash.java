@@ -6,9 +6,11 @@
 package serverhash;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import interfaces.Client;
 import interfaces.IServerHash;
 import interfaces.ResponceHashServer;
+import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
@@ -18,15 +20,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RemoteServer;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import utils.Json;
 
 /**
  *
@@ -120,7 +117,8 @@ public class ServerHash implements IServerHash{
     public void SendFin(ResponceHashServer res) throws RemoteException, NotBoundException {
         Gson json = new Gson();        
         res.ServerName = _Name;
-        _Client.SendResult(json.toJson(res));
+        Type type = new TypeToken<ResponceHashServer>(){}.getType();
+        _Client.SendResult(json.toJson(res, type));
         System.out.println("Se enviaron los resultado y se reinicio el usuario y hilo");
     }    
 

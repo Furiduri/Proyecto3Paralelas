@@ -6,6 +6,7 @@
 package interfaces;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -18,8 +19,8 @@ public class ResponceHashServer {
     public  char[] key;
     public  int Count;
     public  int NThreads;
-    public  LocalDateTime StartDate;    
-    public  LocalDateTime EndDate;
+    public  String StartDate;    
+    public  String EndDate;
     public  String TimerEnd;
     public  char[] StartKey;
     public String ServerName;
@@ -31,12 +32,11 @@ public class ResponceHashServer {
         this.key = key;
         this.Count = Count;
         this.NThreads = NThreads;
-        this.StartDate = StartDate;
-        this.EndDate = EndDate;
+        this.StartDate = StartDate.toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME);
+        this.EndDate = EndDate.toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME);
         this.TimerEnd = TimerEnd;
         this.StartKey = StartKey;
         this.ServerName = ServerName;
-    }
-    
+    }   
     
 }

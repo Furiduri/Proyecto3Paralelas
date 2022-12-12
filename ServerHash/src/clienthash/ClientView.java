@@ -6,24 +6,12 @@
 package clienthash;
 
 import clienthash.ServerClient;
-import interfaces.IServerHash;
-import interfaces.Client;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.AbstractListModel;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
-import interfaces.IClientHash;
 import interfaces.ResponceHashServer;
 import java.awt.Color;
 import java.util.Arrays;
@@ -893,13 +881,10 @@ public class ClientView extends javax.swing.JFrame {
     private void btnSetResultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSetResultMouseClicked
         // TODO add your handling code here:
         if(_HiloSecuencial != null){
-            SetCorrectResult(_HiloSecuencial.resItem);            
-            if(_HiloSecuencial.IsCancel) 
-                SetStatu02();            
+            SetCorrectResult(_HiloSecuencial.resItem);          
+                      
         }else if(_HiloConcurrente != null){
-            SetCorrectResult(_HiloConcurrente.resItem);
-            if(_HiloConcurrente.IsCancel) 
-                SetStatu02(); 
+            SetCorrectResult(_HiloConcurrente.resItem);            
         }
     }//GEN-LAST:event_btnSetResultMouseClicked
 
@@ -1149,8 +1134,8 @@ public class ClientView extends javax.swing.JFrame {
     
     public void SetCorrectResult(ResponceHashServer res){
         txtResult.setText(res.HashFinding);
-        lblTimeInit.setText(res.StartDate.toLocalTime().toString());
-        lblTimeEnd.setText(res.EndDate.toLocalTime().toString());
+        lblTimeInit.setText(res.StartDate.toString());
+        lblTimeEnd.setText(res.EndDate.toString());
         lblTimeMs.setText(res.TimerEnd);
         lblServerResult.setText(res.ServerName);
         lblKeyRes.setText(Arrays.toString(res.key));
@@ -1165,6 +1150,12 @@ public class ClientView extends javax.swing.JFrame {
         //concuerrente
         btnStartConcurrente.setVisible(true);
         btnStopConcurrente.setVisible(false);
+        if(_HiloSecuencial != null)
+            if(_HiloSecuencial.IsCancel) 
+                    SetStatu02();  
+        if(_HiloConcurrente != null)
+            if(_HiloConcurrente.IsCancel) 
+                    SetStatu02();  
         _HiloSecuencial = null;
         _HiloConcurrente = null;
     }
